@@ -1,0 +1,83 @@
+Notas del proyecto
+
+Componentes funcionales : 
+
+1. Debe tener una funcion y el nombre de la misma debe empezar con mayusculas SIEMPRE
+
+function MiFuncion(){
+    return null;
+}
+
+const miFuncionFlecha = ()=>{
+    return null;
+}
+
+Para react es lo mismo usar una u otra al declarar los Componentes.
+
+2. debe importar react
+import React from "react";
+
+3. la funcion debe retornar algo, para los componentes funcionales siempre lo va a necesitar
+
+4. se debe exportar la funcion, dado que cada componente estará en un archivo y si no hacemos el export los otros archivos no pueden hacer el uso de ese componente
+
+export default NombreDeFuncion; 
+
+Se usa default solo cuando hay una funcion para exportar, cuando haya mas de una funcion no se puede usar default. Esto es lo ideal dado que lo mejor es que haya un solo componente por archivo.
+
+Cuando se tiene mas de una funcion se pone export adelante de const y se tiene que importar diferente
+import {Funcion1, Funcion2, ...} from './App';
+Tambien se puede poner que uno vaya por default y el resto entre llaves 
+import FuncionPorDefault {otraFuncion, ...} from './App';
+
+
+5. en los componentes se pueden usar varios padres en un mismo componente, pero se debe ingresar todo dentro de un mismo padre, por ejemplo un div. O un fragment <></> (es como un div fantasma)
+
+6. para que haga los autocompletados de html dentro del Js se tiene que cambiar la extensión a jsx o la otra opcion es seleccionar abajo a la derecha donde dice que lenguaje esta detectando, abre la barra de busqueda, buscar javascript y seleccionar la opcion react
+
+7. para traer imagenes hay que crear una carpeta dentro de src e importarla en el componente
+
+8. MUI - componentes e iconos prearmados (libreria), primero se tiene que instalar desde la pag mui.com // para usar los iconos tambien hay que instalar (npm install @mui/icons-material)
+
+COMPONENTES de clase
+
+2 TIPOS 
+funcionales y de clase. Hoy por hoy se usan poco los componentes de clase. 
+- props
+- states
+- ciclos de vida
+- metodos de ciclos de vida
+
+const MiFuncion = (parametro) => {
+    mi bloque de codigo
+}
+
+function MiFuncion(parametro){
+    mi bloque de codigo
+}
+
+los props se pueden pasar de padre a hijo pero no al revez, entonces en este ejemplo, en App.js le podemos pasar props a header.js
+Los props que se traen en el componente padre, se llaman como parametros en el componente hijo con "props" entre los parentesis de la funcion y lo va a traer como un objeto.
+
+se puede aplicar destructuring y en vez de traer props entre parentesis poner ({prop1, prop2, ...}) para despues usarlo así mismo 
+
+ej: 
+
+export const Header = ({nombreUsuario, apellidoUsuario})=>{
+    return (
+        <header>
+            <img src={logo} alt="logo de tienda" />
+            <h1>Nombre de la Tienda</h1>
+            {/* esto despues se puede hacer en componente */}
+            <nav>
+                <a href="google.com">Categoría 1 </a>
+                <a href="google.com">Categoría 2 </a>
+                <a href="google.com">Categoría 3 </a>
+                <a href="google.com">Categoría 4 </a>
+            </nav>
+            <p>Bienvenido {nombreUsuario}{apellidoUsuario}</p>
+            <ShoppingCartIcon color="primary" fontSize="large" className="cart"/>
+        </header>
+    );
+};
+
