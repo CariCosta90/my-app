@@ -1,6 +1,8 @@
-Notas del proyecto
+[Notas del proyecto]
 
-Componentes funcionales : 
+
+[Componentes funcionales] 
+-------------------------
 
 1. Debe tener una funcion y el nombre de la misma debe empezar con mayusculas SIEMPRE
 
@@ -39,10 +41,13 @@ import FuncionPorDefault {otraFuncion, ...} from './App';
 
 8. MUI - componentes e iconos prearmados (libreria), primero se tiene que instalar desde la pag mui.com // para usar los iconos tambien hay que instalar (npm install @mui/icons-material)
 
-COMPONENTES de clase
+[COMPONENTES de clase]
+----------------------
 
 2 TIPOS 
+''''''''
 funcionales y de clase. Hoy por hoy se usan poco los componentes de clase. 
+
 - props
 - states
 - ciclos de vida
@@ -56,6 +61,10 @@ function MiFuncion(parametro){
     mi bloque de codigo
 }
 
+
+            [Props]
+            -------
+
 los props se pueden pasar de padre a hijo pero no al revez, entonces en este ejemplo, en App.js le podemos pasar props a header.js
 Los props que se traen en el componente padre, se llaman como parametros en el componente hijo con "props" entre los parentesis de la funcion y lo va a traer como un objeto.
 
@@ -63,7 +72,25 @@ se puede aplicar destructuring y en vez de traer props entre parentesis poner ({
 
 ej: 
 
+en apps se declaran las props:
+
+--> en este caso se estan declarando como constantes o hardcodeado, pero la idea es que eventualmente se pasen props de interaccion con el usuario, supongo que eventos, inputs, etc.
+
+
+const nombre = "Alejandro"; 
+    return (
+    <>
+    {/* asi se le pasan las props al componente */}
+    <Header nombreUsuario={nombre}  apellidoUsuario="Fernandez" />
+    )
+
+
+--> y luego en el componente Header:
+
 export const Header = ({nombreUsuario, apellidoUsuario})=>{
+--> alternativa a const Header = (props) y const {nombreUsuario,apellidoUsuario} =props;
+
+
     return (
         <header>
             <img src={logo} alt="logo de tienda" />
@@ -80,4 +107,161 @@ export const Header = ({nombreUsuario, apellidoUsuario})=>{
         </header>
     );
 };
+
+1. si se no se usa el desestructuring despues se tiene que llamar la props con el props. adelante (esa palabra puede ser cualquiera no tiene que ser props)
+
+2. para usar JS dentro del jsx, donde se esta llamando al html siempre se tiene que usar { } las llaves son el escape del html y llamada o uso del JS. 
+
+3. las props siempre son un objeto, por eso se llama "objeto.propiedad"
+
+destructuring:
+-------------
+
+cuando tenemos un array y queremos usarlo con los valores por separado:
+
+const array = [1,2,3];
+
+--> se puede hacer:
+
+const uno = array[0]
+const dos = array[1]
+const tres = array[2]
+
+o 
+
+--> podemos hacer:
+
+const [uno, dos, tres] = array
+
+destructuring para objetos:
+--------------------------
+
+const objeto = {
+    x:1,
+    y:2,
+}
+
+--> se puede hacer:
+
+const a = objeto.x
+const b = objeto.y
+
+--> o se puede hacer:
+
+const (a:x, b:y ) = objeto --> lo que esta en x asignaselo a la variable a y lo que esta en y asignaselo a la variable b
+
+object property shorthand, en los objetos si el nombre de lo que estoy asignando es el mismo que el nombre del valor, se puede escribir de forma reducida. Ej:
+
+A. forma 1
+
+var name = 'John Doe';
+var email = 'john.doe@example.com';
+var age = 25;
+
+var user = {
+    name: name,
+    email: email,
+    age: age
+};
+
+B. forma 2
+
+let name = 'John Doe';
+let email = 'john.doe@example.com';
+let age = 25;
+
+let user = { name, email, age };
+
+console.log(user);
+
+// { 
+//     name: 'John Doe', 
+//     email: 'john.doe@example.com', 
+//     age: 25 
+// }
+
+tambien se pueden combinar ambos
+
+C. forma 3 
+
+let user = { name, userEmail: email, age };
+
+// { 
+//     name: 'John Doe', 
+//     userEmail: 'john.doe@example.com', 
+//     age: 25 
+// }
+
+
+
+Por props se pueden pasar componentes:
+-------------------------------------
+
+1. creacion de componente titulo para probar
+2. creacion do componente titulo
+
+estos dos componentes los importe en apps, pero no los voy a usar alli, los voy a pasar por props a navBar para que los use. 
+
+??????? esto no se puede hacer directo de los nuevos componentes creados? por que no???????
+
+para pasar estos props especiales que son componentes completos, la llamada a navBar en apps se crea una etiqueta de cierre para el componente y dentro de la etiqueta completa se llaman los componentes. 
+
+<Header nombreUsuario={nombre}  apellidoUsuario="Fernandez">
+<ComponenteBoton/>
+<ComponenteTitulo/>
+</Header>
+
+estos pasan a ser componentes children no dejan de ser props. 
+
+se llaman desde el otro componente con la palabra reservada children
+
+export const Header = ({nombreUsuario, apellidoUsuario, children})=>{
+                                                        ''''''''
+        return (
+            <header>
+                <p>Bienvenido {nombreUsuario}{apellidoUsuario}</p>
+                {children}
+                ''''''''''
+                <ShoppingCartIcon color="primary" fontSize="large" className="cart"/>
+            </header>
+        );
+    };
+
+si los quiero pasar solo uno o por separado 
+{children[0]}
+{children[1]}
+
+
+                                - MAP
+                                ''''''
+
+ahora vamos a ver con el map como mostrar el listado de categorias 
+para esto creamos las categorias como objeto 
+
+const categorias = [
+    {nombre : "Caregoria 1", id: 0, ruta: ""},
+    {nombre : "Caregoria 2", id: 1, ruta: ""},
+    {nombre : "Caregoria 3", id: 2, ruta: ""},
+    {nombre : "Caregoria 4", id: 3, ruta: ""},
+];
+
+ESTO NO ME QUEDA TAN CLARO POR QUE ES! (lo siguiente)
+
+para poder iterar por ese array de objetos se usa un map porque un forEach no retorna nada, porque no es una expesion (que quiere decir con que no retorna nada? y entonces que hace?)
+
+en el jsx solo se pueden usar expresiones. y donde se usan los foe each y demas??? no entiendo 
+
+categorias.map((categoria)=> {
+    return <a key={categoria.id} href={categoria.ruta}>{categoria.nombre}</a>
+})
+
+Los mapas siempre necesitan una key, por lo cual es importante que la lista de objetos tenga id 
+
+Si por algun motivo la lista no tiene id: ahi se puede agregar el indice a la funcion del map 
+
+categorias.map((categoria, i)=> {
+                        ''''''
+    return <a key={i} href={categoria.ruta}>{categoria.nombre}</a>
+                ''''''
+})
 

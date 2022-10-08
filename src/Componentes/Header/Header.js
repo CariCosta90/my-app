@@ -3,22 +3,31 @@ import './Header.css'
 import logo from '../../assets/logo.jpg'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-export const Header = (props)=>{
+const Header = ({nombreUsuario, appellidoUsuario, children})=>{
+
+    const categorias = [
+        {nombre : "Categoria 1", id: 0, ruta: ""},
+        {nombre : "Categoria 2", id: 1, ruta: ""},
+        {nombre : "Categoria 3", id: 2, ruta: ""},
+        {nombre : "Categoria 4", id: 3, ruta: ""},
+    ];
+
     return (
         <header>
             <img src={logo} alt="logo de tienda" />
-            <h1>Nombre de la Tienda</h1>
-            {/* esto despues se puede hacer en componente */}
+            {children[1]}
+            <p>Bienvenido {nombreUsuario}</p>
             <nav>
-                <a href="google.com">Categoría 1 </a>
-                <a href="google.com">Categoría 2 </a>
-                <a href="google.com">Categoría 3 </a>
-                <a href="google.com">Categoría 4 </a>
+            {categorias.map((categoria)=>{
+                return <a key= {categoria.id} href={categoria.ruta}>{categoria.nombre}</a>
+            })
+            }
             </nav>
-            <p>Bienvenido {props.nombreUsuario}</p>
+            {children[0]}
             <ShoppingCartIcon color="primary" fontSize="large" className="cart"/>
         </header>
     );
 };
 
 export default Header;
+//
