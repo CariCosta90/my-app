@@ -265,3 +265,105 @@ categorias.map((categoria, i)=> {
                 ''''''
 })
 
+
+
+[COMPONENTES II]
+''''''''''''''''
+
+- STATES
+''''''''
+
+Un estado de react es una variable que al modificarse genera una actualizacion en el componente
+que significa? que se vuelve a ejecutar el componente. 
+
+Trabajamos sobro componenteEstados
+
+Inroduccion a eventos, para react se usa el OnEvento dentro del html. 
+
+- como se hacia en JS?
+variable.addEventListener("click", callback);
+const callback = ()=>{
+    codigo a ejecutar
+}
+
+- como se hace en react?
+
+<button onClick={handleClick}>click</button>
+
+const handleClick = ()=>{
+    codigo a ejecutar
+}
+
+1. [HOOKS]
+''''''''''
+
+cuando se ejecta el jsx despues no le presta atencion de nuevo, despues de que esta definido, si queremos tener variables que generen dinamismo, para esto se usan los estados. Para esto usamos los [hooks]. Son funcionalidades prearmadas que utilizamos dentro de los componentes funcionales para multiples cosas. Es para pexcar funcionalidades. 
+- Se identifica un hook porque inicia con la palabra Use
+- Siempre se declaran dentro del componente
+- No se pueden declarar de forma condicional
+- Son siempre funciones
+https://es.reactjs.org/docs/hooks-reference.html
+
+Hooks básicos
+''''''''''''''
+
+useState
+useEffect
+useContext
+
+[useState]
+''''''''''
+const [state, setState] = useState(initialState);
+
+[Devuelve un valor con estado y una función para actualizarlo.]
+
+Durante el renderizado inicial, el estado devuelto (state) es el mismo que el valor pasado como primer argumento (initialState).
+
+La función setState se usa para actualizar el estado. Acepta un nuevo valor de estado y sitúa en la cola una nueva renderización del componente.
+
+setState(newState);
+
+En las renderizaciones siguientes, el primer valor devuelto por useState será siempre el estado más reciente después de aplicar las actualizaciones.
+
+--> hay que importarlo  
+import React, {useState} from 'react'
+
+- --> como se declara? 
+
+const [contador, setContador] = useState();
+
+Los estados de react no se modifican de forma directa, lo que se tiene que usar es el seter, esto quiere decir que para manipular el cambio se debe usar (en este ejemplo) setContador, no se debe editar nunca "contador" en si mismo.
+
+- Definicion inicial de los estados:
+
+con los estados pasa lo mismo que en las variables, si lo pongo sin nada (useState()) inicia como undefined, pero ahi mismo ya puedo ponerle un valor inicial ej (useState(2) inicia en 2).
+
+ej:
+
+si yo quiero que contador aumente de 1 en 1:
+
+dentro del callback del evento --> setContador(contador+1);
+
+un use state siempre devuelve un array de 2 cosas:
+1. el propio estado
+2. una funcion getter para modificarlo
+
+no se puede usar push al querer agregar mas valores a un array en los estados de react.
+
+como se hace una copia de un array? 
+no se puede hacer   const copia = usuarios; dado que el = es un puntero lo cual quiere decir que terminan apuntando al mismo espacio de memoria, se reasigna en vez de generar una copia real. 
+
+para crear una copia se tiene que utilizar el spread. 
+entonces seria const copia = [...usuarios];
+
+ej:
+
+const [usuarios, setUsuarios]= useState([
+    {nombre:"Nicolas"}, 
+    {nombre:"Pedro"},
+]);
+
+const mariano = {nombre:"mariano"};
+const agregarMariano = ()=>{
+    setUsuarios([...usuarios, mariano]);
+}

@@ -6,6 +6,8 @@ import Header from "./Componentes/Header/Header"
 import ItemCount from "./Componentes/compAfter/ItemCount";
 import { ComponenteTitulo } from "./Componentes/CompTitulo/ComponenteTitulo";
 import { ComponenteBoton } from "./Componentes/CompBoton/ComponenteBoton";
+import { ComponenteEstados } from "./Componentes/ComponenteEstados/ComponenteEstados";
+import {ComponenteUsuarios} from "./Componentes/Usuarios/ComponenteUsuarios";
 
 const App = ()=>{
 
@@ -17,9 +19,11 @@ const App = ()=>{
     <Header nombreUsuario={nombre}  apellidoUsuario="Fernandez">
       <ComponenteBoton/>
       <ComponenteTitulo/>
-    </Header>
-    
+    </Header>    
     <ItemCount stock={10} initial={1}/>
+    <ComponenteEstados/>
+    <ComponenteUsuarios/>
+    
     
   </>
   );
@@ -27,12 +31,4 @@ const App = ()=>{
 
 
 export default App; 
-
-
-//! lo mismo en JS Vanilla se hacia así:
-
-/*  const nodoPadre = document.getElementById("padre");
-    const p = document.createElement("p");
-    p.innerHTML = "Hola Mundo";
-    nodoPadre.appendChild(p); */
 
