@@ -367,3 +367,198 @@ const mariano = {nombre:"mariano"};
 const agregarMariano = ()=>{
     setUsuarios([...usuarios, mariano]);
 }
+
+[CICLO DE VIDA Y METODOS]
+
+- Montaje(mount)
+    - constructor --> pasar la data, todo lo que esta antes del return
+    - render --> la parte de mostrar, todo lo que esta dentro del return
+    -  componentDidMount, se suelen ejecutar aqui consultas, agentes terceros, busqueda de informacion, operaciones que el componente necesita. Ej. si depende de la informacion de una api. 
+
+-Actualizacion(Update)
+    - constructor
+    - render
+    - componentDidUpdate. este se ejecuta cuando el componente se actualiza es la unica diferencia con el anterior
+
+-Desmontaje(unmount)
+    - componentWillUnmount. es un componente que se monta cuando el componente se esta desmontando.(??). 
+
+
+**que es el UseEffect?** --> buscar
+
+(demostraciones en componente)
+
+- controlador de cambios de estado
+
+se ejecuta solo en el montaje
+
+useEffect(()=>{
+    bloque de codigo
+},[])
+
+no devuelve nada, lo que si hace es recibir 2 parametros:
+
+1. una funcion flecha 
+2. un array
+
+se ejecuta al montaje y cuando detecta cambios en los valores del array de dependencia
+
+useEffect(()=>{
+    bloque de codigo
+},[valores])
+
+el useEffect hace manipulaciones del estado sin generar bucles.
+
+
+con esta configuracion se ejecuta en el montaje y en actualizaciones
+
+useEffect(()=>{
+    bloque de codigo
+},[])
+
+si hacemos manipulacion de estado dentro del useEffect generamos un loop infinito porque corre constructor, corre render y despues useEffect, se actualiza e inicia todo de nuevo.
+
+array de control.
+se usa para definir que se corra use effect, cuando se monta (siempre, inevitable) y luego se ejecuta cuando cambie lo que se puso en ese array.
+Si se deja el array vacio se ejecuta solo al principio una vez. 
+
+ej en componenteEstados:
+
+const [numero, setNumero] = useState(0);
+
+useEffect(()=>{
+    console.log("se ejecuta useEffect");
+    setNumero (numero + 1)
+},[contador]);
+
+en este caso por ejemplo se correra el codigo al momento del montaje y luego cada vez que lo contenido dentro del array de control cambie, en este caso el contador. 
+
+
+Repaso de JS importante:
+setTimeout toma 2 cosas, una funcion flecha y un numero en milisegondos. 
+Sirve para correr una funcion pero con el delay indicado (2000 serian 2 segundos)
+
+setTimeout((=>{
+    console.log('ejemplo')
+}, 2000))
+
+setinterval
+
+recibo una funcion y un numero en milisegundos
+es casi lo mismo pero este espera ejecuta y espera ejecuta
+el setInterval es como un bucle de tiempo en repeticion  mientras el setTimeout, espera y corre una sola vez.
+
+setInterval(()=>{}, 2000)
+
+que son expresiones?? [BUSCAR] --> es algo que devuelve algo? como un if no devuelve nada? no entiendo. Un ternario tiene un return implicito.
+
+para matar el setInterval hay que agregar un return dentro del mismo useEffect, sino cada vez que se monta y se desmonta genera un nuevo setInterval
+
+const intervalo = setInterval (()=> {
+    console.log('ping');
+}, 1000) // esto gener aun log de ping cada un segundo, cada vez que le doy al boton alternar genera uno nuevo
+
+return (()=>{
+    clearInterval(intervalo)
+})
+(no estoy segura de para que crearia un intervalo para luego matarlo)
+
+viendo la clase lo que hace es matar el interval cuando se va el componente, y cuando vuelvo a cargar el componente inicia de nuevo el setInterval
+
+esto es el componentWillUnmount
+
+[PROMISES Y ASYNC]
+
+ItemListContainer.js
+
+en el front habitualmente no se crean promesas, se consumen. 
+
+const promesa = new Promise((resolve,reject)=>{
+    resolve("Respuesta positiva");
+    reject("ocurrio un error en la promesa")
+})
+
+una promesa es algo que no se puede manipular en el tiempo. Es el formato para trabajar de forma asicrona, cuando llamaremos cosas que pueden llevar tiempo. 
+
+para consumir promeras se hace dentro del useEffect. 
+(el useEffect se tiene que importar de react)
+
+el catch se efectua cuando falla la respuesta de la promesa (para probar lo hacemos comentando el resolve)
+
+useEffect(()=>{
+    promesa
+    .then((data)=>{
+        console.log("salio todo bien");
+        console.log(data); --> este data seria lo que viene del resolve de la decalaracion de la promesa
+    })
+    .catch((e)=>{
+        console.log("salio todo mal");
+        console.log(e); --> el e (o error) trae lo del reject de la declaracion de la promesa
+    })
+    .finally(()=>{
+        console.log("termino la ejecucion")
+    }) --> opcional y se ejecutaria cada vez, por ejemplo si tengo que hacer algo sin importar la respuesta
+},[])
+
+
+
+
+clase del 12 / 10
+[EVENTOS]
+
+ComponenteEventos
+
+// en vanilla
+const callback = ()=>{
+    console.log("click");
+}
+const unElemento = document.getElementById("id");
+unElemento.addEventListener("click", callback)
+
+
+en react se usa el onEvento (ej. onClick) inline
+
+en el callback del evento no se pone parentesis 
+si se necesita pasarle parametros se genera la funcion flecha
+
+const callback = (mensaje)=>{
+    console.log(mensaje);
+}
+
+<button onClick={()=>callback("hola mensaje")}>Click</button>
+
+los eventos se propagan de hijo a padre al revez de las props. 
+esto quiere decir que si hay un onclick en un boton y ese boton esta dentro de un div y el div tiene un onclick, al accionar el boton se ejecutaran ambos, el del hijo y el del padre. Siendo el mismo tipo de evento. [Esto es el efecto burbuja.]
+
+para evitar esto se puede usar el event.stopPropagation();
+
+
+const callback = (event)=>{
+    console.log("click");
+    event.stopPropagation();
+}
+
+si queremos obtener el objeto del evento o el valor del evento:
+
+const callback = (event)=>{
+    console.dir(event.target);
+    console.log(event.target.value);
+}
+
+Seguimos en Users.js y UserList.js
+
+Users gestiona la logica de agregar los elementos a la lista 
+y UserList gestiona el mostrarlos en componente
+
+como hago si quiero borrar elementos de la lista? 
+
+filter inverso
+
+const array = [1,2,3,4,5]
+const arrayFiltrado = array.filter((numer)=>{
+    return numero !== 3
+})
+
+trae todo menos 3 y guarda el array con eso
+
+en este caso lo hicimos con el valor (nombre) pero seria ideal usar un id porque sino si se repite un nombre lo va a borrar todos

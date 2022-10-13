@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 export const ComponenteEstados = () => {
 
@@ -6,7 +6,19 @@ export const ComponenteEstados = () => {
     const [users, setUsers] = useState(); */
     const [contador, setContador] = useState(0);
 
-    let numero=1;
+    const [numero, setNumero] = useState(0);
+
+    useEffect(()=>{
+        console.log("se ejecuta useEffect");
+        setNumero (numero + 1)
+
+        setTimeout(() => {
+            console.log('prueba de setTimeout');
+        }, 2000);
+    },[contador]);
+
+
+    // let numero=1;
 
     const handleSuma = ()=> {
         /* setContador(5); */
@@ -22,6 +34,8 @@ export const ComponenteEstados = () => {
     const handleReset =()=>{
         setContador(0);
     }
+
+    useEffect(()=>{}, []);
 
     return (
         <div>

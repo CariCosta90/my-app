@@ -1,6 +1,6 @@
 import React, {useState}from 'react'
 
-export const ComponenteUsuarios = () => {
+const ComponenteUsuarios = () => {
     const [usuarios, setUsuarios]= useState([
         {nombre:"Nicolas"}, 
         {nombre:"Pedro"},
@@ -23,3 +23,5 @@ export const ComponenteUsuarios = () => {
     </div>
     )
 }
+
+export default ComponenteUsuarios; 
