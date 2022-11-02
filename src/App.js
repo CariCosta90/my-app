@@ -11,7 +11,9 @@ import ComponenteUsuarios from "./Componentes/Usuarios/ComponenteUsuarios";
 import ItemListContainer from "./Componentes/Containers/ItemListContainer";
 import ComponenteEventos from "./Componentes/ComponenteEventos/ComponenteEventos";
 import  Users  from "./Componentes/Usuarios/Users";
-
+/* imports para generar rutas de navegacion */
+/* import {BrowserRouter, Route, Routes} from "react-router-dom"; */
+/* import { CustomContext } from "./Context/CustomContext"; */
 
 
 
@@ -26,23 +28,27 @@ const alternar = ()=>{
   setShow(!show);
 }
   return (
-    <>
-    {/* asi se le pasan las props al componente */}
-    <Header nombreUsuario={nombre}  apellidoUsuario="Fernandez">
-      <ComponenteBoton/>
-      <ComponenteTitulo/>
-    </Header>    
-    <ItemCount stock={10} initial={1}/>
-    {show ? <ComponenteEstados/> : <h1>Aca no hay nada</h1>}
-    <button onClick={alternar}>Alternar</button>
-    <ComponenteUsuarios/>
-    <ItemListContainer greeting={mensaje}/>
-    <ComponenteEventos/>
-    <Users/>
+
+
+
+<div>
+        {/* asi se le pasan las props al componente */}
+        <Header nombreUsuario={nombre}  apellidoUsuario="Fernandez">
+          <ComponenteBoton/>
+          <ComponenteTitulo/>
+        </Header>    
+        <ItemCount stock={10} initial={1}/>
+        {show ? <ComponenteEstados/> : <h1>Aca no hay nada</h1>}
+        <button onClick={alternar}>Alternar</button>
+        <ComponenteUsuarios/>
+        <ItemListContainer greeting={mensaje}/>
+        <ComponenteEventos/>
+        <Users/>  
+</div>
+  
     
-    
-  </>
-  );
+
+  )
   }
 
 

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import './Header.css'
 import logo from '../../assets/logo.jpg'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Context } from "../../Context/CustomContext";
 
 const Header = ({nombreUsuario, appellidoUsuario, children})=>{
 
@@ -12,11 +13,14 @@ const Header = ({nombreUsuario, appellidoUsuario, children})=>{
         {nombre : "Categoria 4", id: 3, ruta: ""},
     ];
 
+    const resultado = useContext(Context);
+    console.log('resultado', resultado);
+
     return (
         <header>
             <img src={logo} alt="logo de tienda" />
             {children[1]}
-            <p>Bienvenido {nombreUsuario}</p>
+            <p>Bienvenido {nombreUsuario}{appellidoUsuario}</p>
             <nav>
             {categorias.map((categoria)=>{
                 return <a key= {categoria.id} href={categoria.ruta}>{categoria.nombre}</a>

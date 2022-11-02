@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const UserList = ({lista, funcionDelete}) => {
+/* export const UserList = ({lista, funcionDelete}) => {
 
     return (
         <div>
@@ -15,6 +15,23 @@ export const UserList = ({lista, funcionDelete}) => {
                 })}
             </ul>
         </div>
+    )
+} */
+
+const UserList = ({lista, funcionDelete}) =>{   
+
+
+    return(
+        <>
+        <div>Lista de Usuarios</div>
+        <ul>
+            {lista.map((nombre,i)=>{
+                return <li key={i}>{nombre}     
+                <button onClick={()=>funcionDelete(nombre)}>Eliminar</button>
+                </li>
+            })}
+        </ul>
+        </>
     )
 }
 

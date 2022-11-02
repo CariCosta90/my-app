@@ -500,7 +500,220 @@ useEffect(()=>{
     }) --> opcional y se ejecutaria cada vez, por ejemplo si tengo que hacer algo sin importar la respuesta
 },[])
 
+[API]
 
+XHR O  
+
+- FETCH
+
+(then async/await axios)
+
+esto sucede en HTTP (hiper text transfer protocol)
+
+
+
+
+
+
+[APIS]
+
+compuestas de 2 partes 
+Recuest-response
+O
+Cliente - servidor
+
+
+A. recuest-cliente
+
+que necesita?
+
+- URL
+
+a donde voy a apuntar para pedir la informacion. 
+
+- Metodo
+
+GET - traer informacion (fetch)
+POST - sube informacion envia (ej formulario)
+DELETE - Borra algo
+PUT - permite pisar la informacion (ej un usuario completo)
+PATCH - permite pisar un dato de la informacion (ej direccion de usuario)
+
+actualmente PUT y PATCH se inifican y se usa PUT solo
+
+- Headers
+
+metadata, informacion relevante. (ej se le indica que tipo de contenido estoy mandando, por ej un JSON)
+configuracion de la data. 
+el token por ej va aca
+
+- Body
+
+la data cruda que se tiene que subir
+
+- Version
+
+la actual es la 1.1 esto no lo configuramos nosotros, por lo general esta automatico. cambian los metodos por ejemplo
+
+Pestana network
+***************
+
+en el inspector se puede ver lo que el cliente envia y consume para mostrar en el navegador.
+
+content-type: tipo de archivo
+
+2. Response - server
+
+- version
+- headers
+- body
+- codigo de respuesta
+
+100-200-300-400-500
+
+300 redirecciones
+400 errores del cliente
+500 errores del servidor
+
+200 - ok 
+304 - no modificado
+401 - unauthorized
+403 - rechazado
+404 - not found
+408 - request timeout
+500 - internal server error
+502 - bad getway
+503 - service unavailable
+504 - Gateway timeout
+
+1. AYAX
+*******
+
+asynchronus js and xml 
+
+ya casi no se usa el xml, ahora va con JSON
+
+fetch es ayax por ejemplo asi como todos los servicios asincronos.
+
+[FETCH]
+
+axios - libreria para fetch
+
+es una funcion que devuelve una promesa y que puede recibir 2 parametros. 
+
+una url y un objeto
+
+fetch(url, objeto(opcional))
+
+asi por defecto (solo con la url) esta haciendo un GET, si quiero hacer otra cosa tipo un POST tengo que empezar a editar el segundo parametro "objeto"
+
+ej.
+
+fetch(url, {
+    method:POST, 
+    headers:{
+        'content-type':'Application/json'
+    },
+    body: JSON.stringify({nombre:"Ale"})
+})
+
+cuando traemos data de una api por lo genral viene en formato JSON por lo cual hay que hacer un parseo para poder usar la informacion y esto tambien es una promesa, porque JS no sabe lo que tardara en hacer la transformacion
+
+fetch('https://fakestoreapi.com/products')
+            .then(res=>res.json())
+            .then(json=>console.log(json))
+
+[ROUTING Y NAVEGACION]
+
+SPA - single page application (esto es lo que se desarrolla por lo general en React js)
+Aplicaciones de una sola pagina, se genera con la interaccion con el usuario, entonces el HTML muta.
+
+Optimiza la velocidad evitando recargas y demas, trbaja montando y desmontando. 
+
+!= de one page, que usa un solo HTML pero mas estatico 
+
+1. iniciar instalacion:
+
+- en la terminal 
+npm install react-router-dom
+
+Por defecto, React no viene
+con un mecanismo integrado
+de navegación.
+
+Esto es para mantener sus dependencias al mínimo y dado que no todo proyecto necesita routing, se maneja como una dependencia aparte.
+
+1. paso uno inspalar la libreria
+2. hacer los imports en app
+- imports
+
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+
+3. envolver en BrowserRouter
+- BrowserRouter
+
+permite envolver toda la parte de la aplicacion que va a tener impacto en la navegacion 
+
+Cada componente dentro del BrowserRouter es un child.   
+
+4. importar en el componente
+Luego en los componentes hay que importar {Link, NavLink}
+
+5. cambiar los a por Link en el componente
+- Link
+los anchor (a) que se venian manejando, boton de navegacion, etc, se cambian por link y Link en vez de href tiene to
+
+Si tenemos cosas de navegacion que no estan en un <a> tenemos que envolver eso en <Link>, por ejemplo el logo para que vaya a la home.
+
+<Link to="/">
+    <img src={logo} alt="Logo de la tienda"/>
+</Link>
+
+- NavLink
+
+la diferencia con Link es es que NavLink lo define como class "active". Esto puede servir por ejemplo cuando queremos generar un styling diferente para el boton donde se esta actualmene. 
+
+esto se puede usar poniendo este navLink en los botones del nav y ahi podemos en la hoja de css para el .active (verificar como se hacia)
+
+6. Rutas
+
+- Routes
+
+envuelve la parte que va a variar en base a la navegacion, que es lo que se va a ver. 
+
+Tiene una forma particular de usarse y es donde voy a empezar a crear las vistas
+y sus hijos son Route
+
+- Route
+
+utiliza un atributo de Route que se llama Path para definir la url
+
+el segundo atributo es el que machea al componente: element
+
+para este caso donde hay que iterar por las categorias o por los productos no se usa map
+
+<Routes>
+    <Route path="/" element={</Componente>}/> 
+    <Route path="/categoria/:id"/> 
+    <Route path="/producto/:id"/> 
+    <Route path="/Cart"/> 
+</Routes>
+
+7. conseguir informacion dinamica de la ruta 
+
+importar useParams
+como es un hook se tiene que usar dentro del componente que se llama en el route.
+
+const algo = useParams();
+
+esto obtiene el final de la ruta por ejemplo si tenemos que en el path de la route pusimos /categoria/:id y cliqueamos ropa de hombre, se crea la ruta /categoria/ropa de hombre y lo que trae es useParams es "ropa de hombre"
+
+ese :id no hace referencia al id dentro del array de objetos, ahi se le puede poner la palabra que uno quiera pero despues hay que llamarlo con ese nombre 
+
+esto no sabe de donde sale, solo mira la ruta, asi que depende de como armemos nosotros la ruta 
+
+
+PREGUNTAR EN ALGUN MOMENTO! --> al navegar entre las tabs del navbar antes de cargar la nueva categoria por un segundo aparece la anterior. 
 
 
 clase del 12 / 10
@@ -511,14 +724,22 @@ ComponenteEventos
 // en vanilla
 const callback = ()=>{
     console.log("click");
-}
+} 
 const unElemento = document.getElementById("id");
 unElemento.addEventListener("click", callback)
 
+document es una api web que nos brinda axceso al dom
+
+el callback es la funcion que quiero que se ejecute cuando ejecuto el evento 
 
 en react se usa el onEvento (ej. onClick) inline
 
 en el callback del evento no se pone parentesis 
+
+<button onClick={callback}>Click</button>
+
+no se pasa el parentesis porque eso fuerza la ejecucion de la funcion y nosotros solo queremos que corra cuando ejecutamos el evento. v
+
 si se necesita pasarle parametros se genera la funcion flecha
 
 const callback = (mensaje)=>{
@@ -527,11 +748,27 @@ const callback = (mensaje)=>{
 
 <button onClick={()=>callback("hola mensaje")}>Click</button>
 
+siempre es preferible no poner el callback dentro del evento si va a ser de mas de una linea. 
+
+todos los eventos tienen distintas caracteristicas, pero lo que tienen en comun es que todos cuentan con un target. es de lo que mas se usa cuando despertamos un evento. 
+
+que significa el target? es elemento que dispara el evento. Ej el de onchange puede ser un input. 
+
+--> PREVENT default
+algunas tags ya tienen embebido comportamiento con eventos, como por ejemplo las tag <a> que al generar el evento de clisc rederivan a una pagina o link
+
+si queremos que haga algo diferente, podemos usar un prevent default (bolazo, se puede usar otro tag)
+funcion event.preventDefault
+
+se utiliza para la recarga del formulario por ejemplo. en el action se puede determinar a donde se eniva la informacion dentro de una form tag. (ni idea que tiene que ver (?))
+
+
 los eventos se propagan de hijo a padre al revez de las props. 
-esto quiere decir que si hay un onclick en un boton y ese boton esta dentro de un div y el div tiene un onclick, al accionar el boton se ejecutaran ambos, el del hijo y el del padre. Siendo el mismo tipo de evento. [Esto es el efecto burbuja.]
+esto quiere decir que si hay un onclick en un boton y ese boton esta dentro de un div y el div tiene un onclick, al accionar el boton se ejecutaran ambos, el del hijo y el del padre. Siendo el mismo tipo de evento. [Esto es el efecto burbuja.] 
 
 para evitar esto se puede usar el event.stopPropagation();
 
+este stopPropagation se aplica en la funcion callback del evento que no queremos que suba, en el ejemplo del boton dentro del div, el stop propagation se ejecuta en el callback del boton
 
 const callback = (event)=>{
     console.log("click");
@@ -562,3 +799,100 @@ const arrayFiltrado = array.filter((numer)=>{
 trae todo menos 3 y guarda el array con eso
 
 en este caso lo hicimos con el valor (nombre) pero seria ideal usar un id porque sino si se repite un nombre lo va a borrar todos
+
+ejercicio 
+
+users.js
+
+creamos una list de usuarios a la que le podemos agregar mas nombres por medio de un input
+
+[CONTEXTO]
+**********
+
+espacio global donde todos los componentes de alguna forma se pueden comunicar. 
+
+**Archivo CustomContext.js
+
+puede darse el caso de que tenga mas de un context porque se creara uno por cada necesidad, por ejemplo cartContext
+
+
+1. desde la libreria de react importar createContext
+si bien se importa como un hook no lo es porque no inicia con la palabra Use
+esto quiere decir que no me obliga a utilizarlo dentro de un componente, se puede usar fuera del scope del componente.
+
+cuando en un objeto encontramos datos que inician con _ quiere decir que son variables de lectura. 
+
+
+2. crear la variable con la funcion 
+
+export const Context = createContext();
+
+3. devuelve un objeto
+
+lo mas importante de este objeto es el consumer y el provider.
+
+- consumer es la propia informacion 
+- provider el que provee la informacion 
+
+consumer carta, provider cartero
+
+este consumer ya no es tan necesario porque react provee un hook que nos permite conseguir la informacion con menos codigo {useContext}
+
+cuando uso createContext puedo darle un valor inicial, ej un array de objetos (A SON DE KE?)
+
+4. consumir contexto desde otro componente 
+
+primero se llama de la libreria de react el useContext (hook) e importar el contexto que quiero usar 
+
+**este ejemplo esta puesto en Header.js**
+
+import React, { useContext } from "react";
+
+import { Context } from "../../Context/CustomContext";
+
+
+const resultado = useContext(Context);
+console.log('resultado', resultado);
+
+
+- PATRON PROVIDER
+******************
+
+COMPONENTE QUE PROVEE de cosas
+
+el componente que esta dentro del contexto es lo que se usa para realizar las modificaciones a la informacion y ahi es donde crearemos el patron provider que dote de permisos a los componentes para que puedan acceder a modificar el context. 
+
+como se hace?
+
+A. se hace igual que con el browserRouter y se encierra toda la App con el nombre del context
+
+si se tienen varios providers, combiene pasar la llamada a los componentes a otro componente y dejar en app solo la llamada a los context y a ese nuevo componente
+
+B. se traen los children al archivo de contexto
+
+C. para acceder al provider usamos .
+
+- Asi va quedando hasta ahora el archivo js de contexto:
+
+import React, {createContext} from 'react'
+
+export const Context = createContext();
+
+export const CustomContext = ({children}) => {
+    return (
+        <Context.Provider>
+            {children}
+        </Context.Provider>
+    )
+}
+
+D. Lo siguiente es darle un valor al provider
+
+- que significa este value?
+
+todo lo que yo quiera que los children tengan acceso tiene que star envuelta dentro del value del provider
+
+[RENDERIZACION]
+***************
+
+
